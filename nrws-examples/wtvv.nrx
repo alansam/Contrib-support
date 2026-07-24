@@ -1,0 +1,32 @@
+#!/usr/bin/env nr
+/* NetRexx */
+options format replace java comments nobinary decimal
+
+-- vector experiments
+say "What's the vector Victor?";
+
+vec = Vector(Arrays.asList(Object[] [2, 7, -5]));
+say '1: constructor(aslist)  ' vec;
+
+vec.addAll(2, Arrays.asList(Object[] [11, -3]));
+say '2: addall(aslist)       ' vec;
+
+Collections.sort(vec);
+say '3: collections.sort     ' vec;
+
+Collections.sort(vec, Collections.reverseOrder);
+say '4: collections sort desc' vec;
+
+Collections.sort(vec)
+say '5: collections.sort     ' vec;
+say '6: loop over';
+_ = Rexx
+loop _ over vec;
+  say _.right(3);
+end _;
+
+say '7: vec.size:' vec.size;
+say '8: loop 0 to N'
+loop _ = 0 to vec.size - 1;
+  say _.right(2)':' (Rexx vec.get(_)).right(4);
+end _;

@@ -1,0 +1,7 @@
+#!/usr/bin/env nr
+say ' ... ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8'
+ab = [[1, 1], [1, 0], [0, 1], [0, 0]];
+say 'truth table for OR '; loop _e = 0 to ab.length - 1; lo = ab[_e]; say lo[0] lo[1] ':' (lo[0] |  lo[1]); end _e; say;
+say 'truth table for XOR'; loop _e = 0 to ab.length - 1; lo = ab[_e]; say lo[0] lo[1] ':' (lo[0] && lo[1]); end _e; say;
+say 'truth table for AND'; loop _e = 0 to ab.length - 1; lo = ab[_e]; say lo[0] lo[1] ':' (lo[0] &  lo[1]); end _e; say;
+say 'truth table for NOT'; loop _e = 0 to ab.length - 1 by 2; lo = ab[_e]; say lo[0]  ':' (      \  lo[0]); end _e; say;

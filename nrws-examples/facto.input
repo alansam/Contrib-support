@@ -1,0 +1,2 @@
+pipe < fact.out | spec 8-* 1 | change / // | change /.// | pad left 74 | console
+pipe < fact.out | spec 8-* 1 | change / // | change /.// | spec 1-* 1-76 right | console

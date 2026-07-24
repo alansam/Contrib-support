@@ -1,0 +1,44 @@
+say _ruler;
+)clear properties f08 f16 f32 f64 dd
+
+method dotty(nr=Rexx) static; dnr = xmath.dotify(nr, ['.',' ']); return dnr;
+
+dd = digits
+
+numeric digits 50
+
+f08 = byte;
+f16 = short;
+f32 = int;
+f64 = long;
+)display properties f08 f16 f32 f64
+say;
+
+f08 = fact( 5);
+f16 = fact( 7);
+f32 = Integer.parseInt(fact(12));
+f64 = Long.parseLong(fact(20));
+
+say 'largest factorials for fixed size integers:';
+say '|     |'  4.right(2)'! |'dotty(fact( 4)).right(27) '|'                           ' '.right(27) '|                  |';
+say '|byte |'  5.right(2)'! |'dotty(     f08).right(27) '|'         dotty(Byte.MAX_VALUE).right(27) '|max byte          |';
+say '|byte |'  5.right(2)'! |'dotty(     f08).right(27) '|'               dotty('ff'.x2d).right(27) '|max unsigned byte |';
+say '|     |'  6.right(2)'! |'dotty(fact( 6)).right(27) '|'                           ' '.right(27) '|                  |';
+say '|short|'  7.right(2)'! |'dotty(     f16).right(27) '|'        dotty(Short.MAX_VALUE).right(27) '|max short         |';
+say '|short|'  8.right(2)'! |'dotty(fact( 8)).right(27) '|'             dotty('ffff'.x2d).right(27) '|max unsigned short|';
+say '|     |'  9.right(2)'! |'dotty(fact( 9)).right(27) '|'                           ' '.right(27) '|                  |';
+say '|     |' 11.right(2)'! |'dotty(fact(11)).right(27) '|'                           ' '.right(27) '|                  |';
+say '|int  |' 12.right(2)'! |'dotty(     f32).right(27) '|'      dotty(Integer.MAX_VALUE).right(27) '|max int           |';
+say '|int  |' 12.right(2)'! |'dotty(fact(12)).right(27) '|'         dotty('ffffffff'.x2d).right(27) '|max unsigned int  |';
+say '|     |' 13.right(2)'! |'dotty(fact(13)).right(27) '|'                           ' '.right(27) '|                  |';
+say '|     |' 19.right(2)'! |'dotty(fact(19)).right(27) '|'                           ' '.right(27) '|                  |';
+say '|long |' 20.right(2)'! |'dotty(     f64).right(27) '|'         dotty(Long.MAX_VALUE).right(27) '|max long          |';
+say '|long |' 20.right(2)'! |'dotty(fact(20)).right(27) '|' dotty('ffffffffffffffff'.x2d).right(27) '|max unsigned long |';
+say '|     |' 21.right(2)'! |'dotty(fact(21)).right(27) '|'                           ' '.right(27) '|                  |';
+say;
+
+)display properties f08 f16 f32 f64
+
+numeric digits dd
+)clear properties dd
+say;

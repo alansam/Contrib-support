@@ -1,0 +1,42 @@
+say _ruler;
+)clear properties f08 f16 f32 f64 dd
+
+dd = digits
+
+numeric digits 50
+
+f08 = byte;
+f16 = short;
+f32 = int;
+f64 = long;
+)display properties f08 f16 f32 f64
+say;
+
+f08 = fact( 5);
+f16 = fact( 7);
+f32 = Integer.parseInt(fact(12));
+f64 = Long.parseLong(fact(20));
+
+say 'largest factorials for fixed size integers:';
+say '|     |'  4.right(4)'! |' -
+    xmath.dotify(fact(  4),['.',' ']).right(21) '|'                     ' '.right(19) '|                  |';
+say '|byte |'  5.right(4)'! |'Rexx(f08).right(21) '|'    Rexx(Byte.MAX_VALUE).right(19) '|max byte          |';
+say '|byte |'  5.right(4)'! |'Rexx(f08).right(21) '|'              ('ff'.x2d).right(19) '|max unsigned byte |';
+say '|     |'  6.right(4)'! |'fact(  6).right(21) '|'                     ' '.right(19) '|                  |';
+say '|short|'  7.right(4)'! |'Rexx(f16).right(21) '|'   Rexx(Short.MAX_VALUE).right(19) '|max short         |';
+say '|short|'  8.right(4)'! |'fact(  8).right(21) '|'            ('ffff'.x2d).right(19) '|max unsigned short|';
+say '|     |'  9.right(4)'! |'fact(  9).right(21) '|'                     ' '.right(19) '|                  |';
+say '|     |' 11.right(4)'! |'fact( 11).right(21) '|'                     ' '.right(19) '|                  |';
+say '|int  |' 12.right(4)'! |'Rexx(f32).right(21) '|' Rexx(Integer.MAX_VALUE).right(19) '|max int           |';
+say '|int  |' 12.right(4)'! |'fact( 12).right(21) '|'        ('ffffffff'.x2d).right(19) '|max unsigned int  |';
+say '|     |' 13.right(4)'! |'fact( 13).right(21) '|'                     ' '.right(19) '|                  |';
+say '|     |' 19.right(4)'! |'fact( 19).right(21) '|'                     ' '.right(19) '|         |';
+say '|long |' 20.right(4)'! |'Rexx(f64).right(21) '|'    Rexx(Long.MAX_VALUE).right(19) '|max long |';
+say '|     |' 21.right(4)'! |'fact( 21).right(21) '|'                     ' '.right(19) '|         |';
+say;
+
+)display properties f08 f16 f32 f64
+
+numeric digits dd
+)clear properties dd
+say;

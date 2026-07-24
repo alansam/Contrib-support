@@ -1,0 +1,12 @@
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+say _ruler
+say 'in ./nrws.input'
+
+say 'begin ...'
+say
+
+-- preload the pipe machinery for good response on first pipe
+pipe literal Pipelines processor loaded. | console
+
+)synonym qq quit
+)synonym prompt set message prompt

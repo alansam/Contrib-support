@@ -1,0 +1,1 @@
+pipe literal +1 3108746682~+1 3104531539 | split str /~/ | spec word 1 1 4-6 4 /-/ 7 7-9 8 /-/ 11 10-* 12 | sort | console

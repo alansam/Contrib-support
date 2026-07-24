@@ -1,0 +1,16 @@
+
+--)import package xclasses
+--)read fact
+)read fact_runner
+)clear properties dd
+
+say _ruler;
+say 'running fact_runner; output written to "fact.out"'
+
+dd=digits;
+numeric digits 80;
+fact_runner('fact.out',54);
+numeric digits dd;
+
+)clear properties dd
+say;

@@ -1,0 +1,22 @@
+/* NetRexx */
+
+say _ruler;
+say 'loading method fact_runner';
+say;
+
+)import package xclasses
+)read fact
+
+--..o....O....o....O....o....O....o....O....o....O....o....O....o....O....o....O
+method fact_runner(ofile,nr) static; -
+  if (ofile.length = 0) then ofile='fact.out'; -
+  if (nr.datatype(Rexx 'w') = 0) then nr=54; -
+  say '>>>>'ofile',' nr; -
+  stream(ofile,'C','OPEN WRITE'); -
+  loop _=1 to nr; -
+    _f = _.right(4)'!:' xmath.dotify(fact(_),['.',' ']).right(98,'.'); -
+    lineout(ofile,_f); -
+  end _; -
+  stream(ofile,'C','CLOSE'); -
+  return;
+

@@ -1,0 +1,16 @@
+#!/usr/bin/env nr
+/* NetRexx */
+
+method main(args = String[]) public static
+  ary_ = [Rexx 3, 1, 0, 8, 7, 4, 6, 6, 8, 2]
+  catch = ''
+  ct = 0
+  loop d_ over ary_
+    catch = catch || d_
+    ct = ct + 1
+    if ct = 3 | ct = 6 then catch = catch || '-'
+  end d_
+  say catch
+
+  return
+

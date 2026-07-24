@@ -1,0 +1,17 @@
+/* NetRexx Pipes */
+options replace java comments format
+
+class facto public
+
+  method main(args = String[]) public static
+
+    /* Uses /* pad */ stage */
+    pipe (fp0 ) < fact.out | spec 8-* 1 | change / // | change /.// | pad left 74 | console
+    say
+
+    /* uses /* spec */ stage */
+    pipe (fs0 ) < fact.out | spec 8-* 1 | change / // | change /.// | spec 1-* 1-76 right | console
+    say
+
+    exit
+

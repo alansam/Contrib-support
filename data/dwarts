@@ -1,0 +1,31 @@
+ {
+   "F1937_1" : {
+     "title"  : "Snow White and the Seven Dwarfs",
+     "year"   : 1937,
+     "medium" : "film",
+     "dwarfs" : [ "Grumpy", "Happy", "Sleepy", "Bashful", "Sneezy", "Dopey", "Doc" ]
+   },
+   "F2012_1" : {
+     "title"  : "Mirror, Mirror",
+     "year"   : 2012,
+     "medium" : "film",
+     "dwarfs" : [ "Grimm", "Butcher", "Wolf", "Napoleon", "Half Pint", "Grub", "Chuckles" ]
+   },
+ }
+
+{"F2012_2": {
+  "year": 2012,
+  "medium": "film",
+  "title": "Snow White & the Huntsman",
+  "dwarfs": [
+    "Beith",
+    "Quert",
+    "Muir",
+    "Coll",
+    "Duir",
+    "Gus",
+    "Gort",
+    "Nion"
+  ]
+}}
+

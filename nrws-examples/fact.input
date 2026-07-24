@@ -1,0 +1,2 @@
+/* NetRexx */
+method fact(nr) static; if nr < 3 then return nr; else return nr * fact(nr - 1);
