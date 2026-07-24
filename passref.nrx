@@ -1,0 +1,49 @@
+#!/usr/bin/env nr
+/* NetRezz */
+-- .o....0....o....0....o....0....o....0....o....0....o....0....o....0....o....0
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options replace format comments java nocrossref symbols nobinary
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method main(args = String[]) public static
+
+  arg = Rexx(args)
+  parse arg .
+
+  counts = 0
+  parse 'A B C' A B C .
+
+  occs = [ '-2-2-2-', '-1-2-3-', '-0-0-0-' ]
+  loop occ over occs
+    if isSome(occ, counts) then
+      finding = 'Success!'
+    else
+      finding = 'Failure!'
+
+    say finding':' ''''occ''' results:' counts[A]',' counts[B]',' counts[C]
+  end occ
+
+  return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method isSome(occ = Rexx, counts = Rexx) public static returns boolean
+  parse 'A B C' A B C .
+  isTrue  = boolean (1 == 1)
+  isFalse = boolean (\isTrue)
+
+  parse occ '-'ayys'-'bees'-'cees'-' .
+  if (ayys > 0) & (ayys == bees & bees == cees) then do
+    gotsome = isTrue
+  end
+  else do
+    gotsome = isFalse
+  end
+
+  counts[A] = ayys
+  counts[B] = bees
+  counts[C] = cees
+
+  return gotsome
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

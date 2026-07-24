@@ -1,0 +1,38 @@
+#!/usr/bin/env nr
+/* NetRexx */
+options nobinary
+
+/*
+ |  This is the banner:
+ |  ooo____oo__________oo____ooooooo_________________________
+ |  oooo___oo__ooooo___oo____oo____oo___ooooo__o____o_o____o_
+ |  oo_oo__oo_oo____o_oooo___oo____oo__oo____o__oo_o___oo_o__
+ |  oo__oo_oo_ooooooo__oo____ooooooo___ooooooo___oo_____oo___
+ |  oo___oooo_oo_______oo__o_oo____oo__oo_______o_oo___o_oo__
+ |  oo____ooo__ooooo____ooo__oo_____oo__ooooo__o___oo_o___oo_
+ |  _________________________________________________________
+ */
+
+banner = Rexx ''
+banner[0] = 0
+banner[0] = banner[0] + 1
+banner[banner[0]] = 'ooo____oo__________oo____ooooooo_________________________'
+banner[0] = banner[0] + 1
+banner[banner[0]] = 'oooo___oo__ooooo___oo____oo____oo___ooooo__o____o_o____o_'
+banner[0] = banner[0] + 1
+banner[banner[0]] = 'oo_oo__oo_oo____o_oooo___oo____oo__oo____o__oo_o___oo_o__'
+banner[0] = banner[0] + 1
+banner[banner[0]] = 'oo__oo_oo_ooooooo__oo____ooooooo___ooooooo___oo_____oo___'
+banner[0] = banner[0] + 1
+banner[banner[0]] = 'oo___oooo_oo_______oo__o_oo____oo__oo_______o_oo___o_oo__'
+banner[0] = banner[0] + 1
+banner[banner[0]] = 'oo____ooo__ooooo____ooo__oo_____oo__ooooo__o___oo_o___oo_'
+banner[0] = banner[0] + 1
+banner[banner[0]] = '_________________________________________________________'
+
+say
+loop label bl bl = 1 to banner[0]
+  say banner[bl]
+end bl
+say
+

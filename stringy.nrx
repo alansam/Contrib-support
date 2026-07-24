@@ -1,0 +1,44 @@
+#!/usr/bin/env nr
+/* NetRexx */
+options replace format comments java
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+val1 = 'O, for a muse of fire that would ascend ' || -
+       'The brightest heaven of invention!'
+val2 = 'A kingdom for a stage, princes to act, ' || -
+       'And monarchs to behold the swelling scene! '
+val3 = 'Then should the warlike Harry, like himself ' || - 
+       'Assume the port of Mars, and at his heels, ' || -
+       'Leashed in like hounds, should famine, ' || -
+       'sword, and fire Crouch for employment.'
+
+say val1
+say
+say val2
+say
+say val3
+say
+
+say 'simple join'
+out1 = val1 val2
+say out1
+say
+
+say 'full concatenation'
+out1 = val1 || val2
+say out1
+say
+
+say 'insertion'
+out1 =  val1.insert(val2, 10, 15)
+say out1
+say
+
+say 'overlay'
+out1 = val1.overlay(val2, 10, 15)
+say out1
+say
+
+return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8

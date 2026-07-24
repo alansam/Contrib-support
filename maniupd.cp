@@ -1,0 +1,1 @@
+Class-Path: /Users/alansampson/usr/local/NetRexx/lib/NetRexxF.jar /Users/alansampson/usr/local/NetRexx/lib/NetRexxC.jar /Users/alansampson/usr/local/NetRexx/lib/ecj-4.6.3.jar /Users/alansampson/usr/local/NetRexx/lib/NetRexxF.jar /Users/alansampson/usr/local/NetRexx/lib/NetRexxC.jar /Users/alansampson/usr/local/NetRexx/lib/ecj-4.6.3.jar

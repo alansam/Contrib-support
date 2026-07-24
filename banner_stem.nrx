@@ -1,0 +1,15 @@
+#!/usr/bin/env nr
+/* NetRexx */
+options replace format comments java nocrossref symbols nobinary
+
+receiver = ''
+figgy = 'figlet -w 132 -f os2 NetRexx'
+
+address 'sh' figgy with output stem receiver
+
+say 'lines received:' receiver[0]
+
+loop label ln ln = 1 to receiver[0]
+  say ln.right(3)':' receiver[ln]
+end ln
+

@@ -1,0 +1,6 @@
+#!/usr/bin/env nr
+parse source src
+say src
+parse source . . name .
+pathlen = name.length()
+say name.substr(pathlen - 12, 4) name.substr(pathlen - 7, 4)

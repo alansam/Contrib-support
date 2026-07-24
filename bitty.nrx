@@ -1,0 +1,23 @@
+#!/usr/bin/env nr
+/* NetRexx */
+options replace format comments java
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+val1 = 41
+val2 = 231
+parse get(val1) '|' d1 '|' x1 '|' b1 '|'
+say 'val1:' d1.right(5) x1.right(8) b1.right(10)
+parse get(val2) '|' d1 '|' x1 '|' b1 '|'
+say 'val2:' d1.right(5) x1.right(8) b1.right(10)
+
+val3 = val1.d2b & val2.d2b
+parse get(val3) '|' d1 '|' x1 '|' b1 '|'
+say 'val3:' d1.right(5) x1.right(8) b1.right(10)
+
+return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method get(value) public static returns Rexx
+  sayStr = '|' value '|' value.d2x '|' value.d2b '|'
+
+  return saystr

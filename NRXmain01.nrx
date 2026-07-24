@@ -1,0 +1,21 @@
+#!/usr/bin/rnv nr
+/* NetRexx */
+options replace format comments java crossref symbols nobinary
+
+/**
+ *
+ */
+--method main(arg) public static
+  --gs = Rexx(argv)
+
+  parse arg a1 a2 a3 a4 rest_
+
+  say 'a1: ''' || a1 || ''''
+  say 'a2: ''' || a2 || ''''
+  say 'a3: ''' || a3 || ''''
+  say 'a4: ''' || a4 || ''''
+
+  if rest_ \= '' then say 'we also got this ''' || rest_  || ''''
+
+  return
+

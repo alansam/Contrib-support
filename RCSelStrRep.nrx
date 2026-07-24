@@ -1,0 +1,91 @@
+#!/usr/bin/env nr
+/* NetRexx */
+options replace format comments java
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  sample = "abracadabra"
+  reps   = ''
+  reps[0] = 8
+  reps[1] = 'a A' -- 1st a
+  reps[2] = 'a B' -- 2nd a
+  reps[3] = 'a @' -- skip
+  reps[4] = 'a C' -- 4th a
+  reps[5] = 'a D' -- 5th a
+  reps[6] = 'b E' -- 1st b
+  reps[7] = 'r $' -- skip
+  reps[8] = 'r F' -- 2nd r
+
+  target = sample
+  loop ix = 1 to reps[0]
+    parse reps[ix] chs chn .
+    loc = target.pos(chs)
+    if loc <> 0 then
+      target = target.overlay(chn, loc, 1)
+  end ix
+  target = target.translate('ar', '@$')
+
+  check = "AErBcadCbFD"
+  say ' ' sample
+  say ' ' target
+  if target.compare(check) = 0 then
+  say '  Success!'
+  say
+
+  parseSolution(sample, check)
+  say
+
+  return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method parseSolution(sample, check) public static
+
+  X       = ''
+  X['a1'] = 'A'
+  X['a2'] = 'B'
+  X['a3'] = 'a'
+  X['a4'] = 'C'
+  X['a5'] = 'D'
+  X['b1'] = 'E'
+  X['r1'] = 'r'
+  X['r2'] = 'F'
+
+  say ' ' sample
+  parse sample a1 'a' a2 'a' a3 'a' a4 'a' a5 'a' a6
+--say ' ' a1 a2 a3 a4 a5 a6
+  target = a1 || X['a1'] || a2 || X['a2'] || a3 || X['a3'] || a4 || X['a4'] || a5  || X['a5'] || a6
+--say ' ' target
+  parse target b1 'b' b2
+--say ' ' b1 b2
+  target = b1 || X['b1'] || b2
+--say ' ' target
+  parse target r1 'r' r2 'r' r3
+--say ' ' r1 r2 r3
+  target = r1 || X['r1'] || r2 || X['r2'] || r3
+  say ' ' target
+
+  if target.compare(check) = 0 then
+  say '  Success!'
+  say
+
+  return
+
+/*
+ ... ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+This is admittedly a trivial task but I thought it would be interesting to see
+how succinctly (or otherwise) different languages can handle it.
+
+Given the string: "abracadabra", replace programatically:
+
+the first  'a' with 'A'
+the second 'a' with 'B'
+the fourth 'a' with 'C'
+the fifth  'a' with 'D'
+the first  'b' with 'E'
+the second 'r' with 'F'
+
+Note that there is no replacement for the third 'a', second 'b' or first 'r'.
+
+The answer should, of course, be : "AErBcadCbFD".
+ ... ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+ */
+

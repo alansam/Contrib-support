@@ -1,0 +1,246 @@
+#!/usr/bin/env nr
+/* NetRex */
+options java format comments replace binary utf8
+
+--  . ...1 ... ...2 ... ...3 ... ...4 ... ...5 ... ...6 ... ...7 ... ...8
+--
+--  . ...1 ... ...2 ... ...3 ... ...4 ... ...5 ... ...6 ... ...7 ... ...8
+class nonascii public
+
+  properties private constant
+    -- guillemets
+    lg = Rexx '\xAB'
+    rg = Rexx '\xBB'
+    isTrue  = (1 == 1)
+    isFalse = (\isTrue)
+
+  properties private static
+    utf16_chars ='UTF-16:' -
+                         '\U0000\U0007\U0030\U0041\U007F\U00A0\U00A1\U00AB\U00BB\U00FF' -
+                         '\U00C2\U00C3\U00E2\U00E3' -
+                         '\U30A2\U30E9\U30F3\U3042\U3089\U3093' -
+                         '\U263A\U263B\U2665\U2666\U2302\U266B\U2605\U00A7\U25BA\U2594\U25C4\U2591\U2592' || -
+                         '\U2593\U2588\U250C\U2534\U2510\U00B1\U00F7\U00B2\U00AC\U2514\U252C\U2518' -
+                 ':16-FTU'
+
+    code_table = [Rexx -
+                        '\x00\x20\x20 | \U0000 | NULL', -
+                        '\x07\x20\x20 | \U0007 | BELL', -
+                        '\x09\x20\x20 | \u0009 | CHARACTER TABULATION', -
+                        '\x30\x20\x20 | \U0030 | DIGIT ZERO', -
+                        '\x41\x20\x20 | \U0041 | LATIN CAPITAL LETTER A', -
+                        '\x7F\x20\x20 | \U007F | DELETE', -
+                        '\xC2\xA0\x20 | \U00A0 | NO-BREAK SPACE', -
+                        '\xC2\xA1\x20 | \U00A1 | INVERTED EXCLAMATION MARK', -
+                        '\xC2\xAB\x20 | \U00AB | LEFT-POINTING DOUBLE ANGLE QUOTATION MARK', -
+                        '\xC2\xBB\x20 | \U00BB | RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK', -
+                        '\xC2\xFF\x20 | \U00FF | LATIN SMALL LETTER Y WITH DIAERESIS', -
+                        '\xC3\x82\x20 | \U00C2 | LATIN CAPITAL LETTER A WITH CIRCUMFLEX', -
+                        '\xC3\x83\x20 | \U00C3 | LATIN CAPITAL LETTER A WITH TILDE', -
+                        '\xC3\xA2\x20 | \U00E2 | LATIN SMALL LETTER A WITH CIRCUMFLEX', -
+                        '\xC3\xA3\x20 | \U00E3 | LATIN SMALL LETTER A WITH TILDE', -
+                        '\xE3\x82\xA2 | \U30A2 | KATAKANA LETTER A', -
+                        '\xE3\x83\xA9 | \U30E9 | KATAKANA LETTER RA', -
+                        '\xE3\x83\xB3 | \U30F3 | KATAKANA LETTER N', -
+                        '\xE3\x81\x82 | \U3042 | HIRAGANA LETTER A', -
+                        '\xE3\x82\x89 | \U3089 | HIRAGANA LETTER RA', -
+                        '\xE3\x82\x93 | \U3093 | HIRAGANA LETTER N', -
+                        '\xe2\x98\xba | \U263A | WHITE SMILING FACE', -
+                        '\xe2\x98\xbb | \U263B | BLACK SMILING FACE', -
+                        '\xe2\x99\xa5 | \U2665 | BLACK HEART SUIT', -
+                        '\xe2\x99\xa6 | \U2666 | BLACK DIAMOND SUIT', -
+                        '\xe2\x8c\x82 | \U2302 | HOUSE', -
+                        '\xe2\x99\xab | \U266B | BEAMED EIGHTH NOTES',-
+                        '\xe2\x98\xbc | \U2605 | BLACK STAR', -
+                        '\xc2\xa7\x20 | \U00A7 | SECTION SIGN', -
+                        '\xe2\x96\xba | \U25BA | BLACK RIGHT-POINTING POINTER', -
+                        '\xe2\x86\x94 | \U2594 | UPPER ONE EIGHTH BLOCK', -
+                        '\xe2\x97\x84 | \U25C4 | BLACK LEFT-POINTING POINTER', -  
+                        '\xe2\x96\x91 | \U2591 | LIGHT SHADE', -
+                        '\xe2\x96\x92 | \U2592 | MEDIUM SHADE', -
+                        '\xe2\x96\x93 | \U2593 | DARK SHADE', -
+                        '\xe2\x96\x88 | \U2588 | FULL BLOCK', -
+                        '\xe2\x94\x8c | \U250C | BOX DRAWINGS LIGHT DOWN AND RIGHT', -
+                        '\xe2\x94\xb4 | \U2534 | BOX DRAWINGS LIGHT UP AND HORIZONTAL', -
+                        '\xe2\x94\x90 | \U2510 | BOX DRAWINGS LIGHT DOWN AND LEFT', -
+                        '\xc2\xb1\x20 | \U00B1 | PLUS-MINUS SIGN', -
+                        '\xc3\xb7\x20 | \U00F7 | DIVISION SIGN', -
+                        '\xc2\xb2\x20 | \U00B2 | SUPERSCRIPT TWO', -
+                        '\xc2\xac\x20 | \U00AC | NOT SIGN', -
+                        '\xe2\x94\x94 | \U2514 | BOX DRAWINGS LIGHT UP AND RIGHT', -
+                        '\xe2\x94\xac | \U252C | ', -
+                        '\xe2\x94\x98 | \U2518 | BOX DRAWINGS LIGHT UP AND LEFT' -
+                        ]
+
+  properties public
+
+--  . ...1 ... ...2 ... ...3 ... ...4 ... ...5 ... ...6 ... ...7 ... ...8
+--
+--  . ...1 ... ...2 ... ...3 ... ...4 ... ...5 ... ...6 ... ...7 ... ...8
+method nonascii() public
+  say "A new instance of a 'nonascii' object awaits"
+  return
+
+--  . ...1 ... ...2 ... ...3 ... ...4 ... ...5 ... ...6 ... ...7 ... ...8
+--
+--  . ...1 ... ...2 ... ...3 ... ...4 ... ...5 ... ...6 ... ...7 ... ...8
+method getU16Chars() public returns Rexx
+  return nonascii.utf16_chars
+
+--  . ...1 ... ...2 ... ...3 ... ...4 ... ...5 ... ...6 ... ...7 ... ...8
+--
+--  . ...1 ... ...2 ... ...3 ... ...4 ... ...5 ... ...6 ... ...7 ... ...8
+method getCodeTable() public returns Rexx[]
+  return code_table
+
+--  . ...1 ... ...2 ... ...3 ... ...4 ... ...5 ... ...6 ... ...7 ... ...8
+--
+--  . ...1 ... ...2 ... ...3 ... ...4 ... ...5 ... ...6 ... ...7 ... ...8
+method showUtf16() public
+  
+  code_table = getCodeTable()
+
+  loop tab_line over code_table
+    parse tab_line . '|' utf_16 '|' description
+    utf_16 = utf_16.strip
+
+    unicode = utf_16.substr(1, 1).c2x
+    select label u16 case unicode.length
+      when 3 then
+        unicode = '0' || unicode
+      when 2 then
+        unicode = '00' || unicode
+      when 1 then
+        unicode = '000' || unicode
+      otherwise
+        nop
+    end u16
+
+    say '|' utf_16 '| U+' || unicode '|' description
+  end tab_line
+
+  return
+
+--  . ...1 ... ...2 ... ...3 ... ...4 ... ...5 ... ...6 ... ...7 ... ...8
+--
+--  . ...1 ... ...2 ... ...3 ... ...4 ... ...5 ... ...6 ... ...7 ... ...8
+method showUtf8() public
+  
+  code_table = getCodeTable()
+
+  loop tab_line over code_table
+    parse tab_line utf_8 . '|' . '|' description
+
+    xx = Rexx[7]
+--  utf_8 = utf_8.strip
+--  say '---' utf_8.length
+    select label u8 case utf_8.length
+      when 7 then do
+  /*
+        say 'case 7'
+        say lg || utf_8.substr(1, 1).c2x || rg -
+            lg || utf_8.substr(2, 1).c2x || rg -
+            lg || utf_8.substr(3, 1).c2x || rg -
+            lg || utf_8.substr(4, 1).c2x || rg -
+            lg || utf_8.substr(5, 1).c2x || rg -
+            lg || utf_8.substr(6, 1).c2x || rg -
+            lg || utf_8.substr(7, 1).c2x || rg
+  */
+
+        xx[0] = utf_8.substr(1, 1).c2x
+        xx[1] = utf_8.substr(2, 1).c2x
+        xx[2] = '..'
+--      xx[2] = utf_8.substr(3, 1).c2x
+--      xx[3] = utf_8.substr(4, 1).c2x
+--      xx[4] = utf_8.substr(5, 1).c2x
+--      xx[5] = utf_8.substr(6, 1).c2x
+--      xx[6] = utf_8.substr(7, 1).c2x
+      end
+      when 4 then do
+  /*
+        say 'case 4'
+        say lg || utf_8.substr(1, 1).c2x || rg -
+            lg || utf_8.substr(2, 1).c2x || rg -
+            lg || utf_8.substr(3, 1).c2x || rg -
+            lg || utf_8.substr(4, 1).c2x || rg
+  */
+
+        xx[0] = utf_8.substr(1, 1).c2x
+        xx[1] = utf_8.substr(2, 1).c2x
+        xx[2] = utf_8.substr(3, 1).c2x
+--      xx[3] = utf_8.substr(4, 1).c2x
+      end
+      when 3 then do
+  /*
+        say 'case 3'
+        say lg || utf_8.substr(1, 1).c2x || rg -
+            lg || utf_8.substr(2, 1).c2x || rg -
+            lg || utf_8.substr(3, 1).c2x || rg
+  */
+
+        xx[0] = utf_8.substr(1, 1).c2x
+        xx[1] = utf_8.substr(2, 1).c2x
+        xx[2] = utf_8.substr(3, 1).c2x
+      end
+      when 2 then do
+  /*
+        say 'case 2'
+        say lg || utf_8.substr(1, 1).c2x || rg -
+            lg || utf_8.substr(2, 1).c2x || rg
+  */
+
+        xx[0] = utf_8.substr(1, 1).c2x
+        xx[1] = utf_8.substr(2, 1).c2x
+        xx[2] = '..'
+      end
+      when 1 then do
+  /*
+        say 'case 1'
+        say lg || utf_8.substr(1, 1).c2x || rg -
+  */
+        zz = utf_8.substr(1, 1).c2x
+        if zz.length < 2  then zz = '0' || zz
+        xx[0] = zz
+        xx[1] = '..'
+        xx[2] = '..'
+      end
+      otherwise do
+  /*
+        say 'case other'
+  */
+
+        xx[0] = '..'
+        xx[1] = '..'
+        xx[2] = '..'
+      end
+    end u8
+
+    say '|' lg || utf_8 || rg -
+        '|' lg || xx[0] || ' ' || xx[1] || ' ' || xx[2] || rg -
+        '|' description
+  end tab_line
+
+  return
+
+--  . ...1 ... ...2 ... ...3 ... ...4 ... ...5 ... ...6 ... ...7 ... ...8
+--
+--  . ...1 ... ...2 ... ...3 ... ...4 ... ...5 ... ...6 ... ...7 ... ...8
+method main(args = String[]) public static
+
+  parse (isTrue isFalse) .
+
+  say lg lg.c2x '--' rg.c2x rg
+
+  me = nonascii()
+  u16chars = me.getU16Chars
+  say u16chars
+  say
+
+  me.showUtf16
+  say
+
+  me.showUtf8
+  say
+
+  return
+

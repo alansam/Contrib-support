@@ -1,0 +1,17 @@
+#!/usr/bin/rnv nr
+/* NetRexx */
+options replace format comments java crossref symbols nobinary
+
+/**
+ *
+ */
+method main(args = String[]) public static
+  arg = Rexx(args)
+  parse arg a1 a2 a3 .
+
+  say 'a1: ''' || a1 || ''''
+  say 'a2: ''' || a2 || ''''
+  say 'a3: ''' || a3 || ''''
+
+  return
+

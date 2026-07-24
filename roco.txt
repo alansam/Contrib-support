@@ -1,0 +1,13 @@
+=={{header|NetRexx}}==
+{{trans|REXX}}
+{{works with|NetRexx|5.10-GA}}
+
+<syntaxhighlight lang="NetRexx">
+
+</syntaxhighlight>
+
+{{out}}
+<pre style="height:45ex">
+
+</pre>
+

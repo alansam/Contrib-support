@@ -1,0 +1,8 @@
+#!/usr/bin/env nr
+/* NetRexx */
+options nobinary
+
+say
+address 'sh' 'figlet -w 132 -f os2 NetRexx'
+say
+

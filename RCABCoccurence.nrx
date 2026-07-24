@@ -1,0 +1,172 @@
+#!/usr/bin/env nr
+/* Rexx */
+-- .o....0....o....0....o....0....o....0....o....0....o....0....o....0....o....0
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options replace format comments java crossref symbols nobinary
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- placed here so the usage message is the first thing you see when editing
+method usage() public static
+  parse source . . pgmname
+  say 'Usage: ./'pgmname '[opts]'
+  say '  opts are optional. default is to read strings from stdin'
+  say '    -l literal  - provide a literal string to process'
+  say '    -f filename - provide a text file containing strings'
+  say '    -f .        - use a default file; currently ''./data/unixdict.txt'''
+  say '    --          - read from stdin'
+  say '    -h          - this message'
+  say '    -?          - alias for -h'
+  say
+  return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method main(args = String[]) public static
+  isTrue  = boolean (1 == 1)
+  isFalse = boolean (\isTrue)
+
+  arg = Rexx(args)
+
+  exitCd = 0
+  if exitCd > 0 then
+    _debugging = isTrue
+  else
+    _debugging = isFalse
+
+  parse arg . '-l' literal 0 . '-f' file_name . 0 opt .
+
+  select
+    when literal.length > 0 then do
+      str = literal.strip
+      dict_file = ''
+    end
+
+    when file_name.length > 0 then do
+      if file_name = '.' then do
+        dict_file = './data/unixdict.txt'
+      end
+      else if file_name = '--' then do
+        dict_file = '' -- input taken from .STDIN
+      end
+      else do
+        dict_file = file_name.strip
+      end
+      str = ''
+    end
+
+    otherwise do
+      opt = opt.strip
+      if opt.length = 0 | opt = '--' then do
+        dict_file = '' -- input taken from .STDIN
+        str = ''
+      end
+      else do
+        exitCd = 4
+        if opt = '-h' | opt = '-?' then do
+          usage()
+        end
+        else if opt = '-f' then do
+          say 'option '''opt''' requires a file name; exiting'
+        end
+        else do
+          say 'option '''opt''' not recognized; exiting.'
+        end
+      end
+    end
+  end
+  if exitCd \= 0 then exit Rexx exitCd
+
+  occurs = ''; occurs[0] = 0
+  parse 'A B C' A B C
+
+  if str.length = 0 | str = '.' then do
+    if dict_file.length > 0 then _fn = dict_file
+    else _fn = '.STDIN'
+    say 'reading strings from '''_fn''''
+
+    if _fn = '.STDIN' then do
+      loop label eopipe forever
+        str = ask
+        if str = null then leave eopipe
+        occ = str.lower
+        counts = 0
+        if isABC(occ, counts) then do
+          if _debugging then say A'='counts[A]',' B'='counts[B]',' C'='counts[C]
+          _c = occurs[0] + 1; occurs[0] = _c; occurs[_c] = str ':' counts[A] -- [A], [B], & [C] are equal
+        end
+      catch NullPointerException
+      end eopipe
+    end
+    else do
+      loop label eof while lines(dict_file)
+        str = linein(dict_file)
+        occ = str.lower
+        counts = 0
+        if isABC(occ, counts) then do
+          if _debugging then say A'='counts[A]',' B'='counts[B]',' C'='counts[C]
+          _c = occurs[0] + 1; occurs[0] = _c; occurs[_c] = str ':' counts[A] -- [A], [B], & [C] are equal
+        end
+      end eof
+    end
+    if occurs[0] = 0 then do
+      occurs[0] = 1
+      if dict_file.length = 0 then dict_file = '.STDIN'
+      occurs[1] = 'no strings in '''dict_file''' meet criteria'
+    end
+  end
+  else do
+    occ = str.lower
+    counts = 0
+    if isABC(occ, counts) then do
+      if _debugging then say A'='counts[A]',' B'='counts[B]',' C'='counts[C]
+      _c = occurs[0] + 1; occurs[0] = _c; occurs[_c] = str ':' counts[A] -- [A], [B], & [C] are equal
+    end
+    else do
+      occurs[0] = 1
+      occurs[1] = ''''str''' does not meet criteria.'
+    end
+    if occurs[0] = 0 then do
+      occurs[0] = 1
+      occurs[1] = ''''str''' does not meet criteria.'
+    end
+  end
+
+  loop _s = 1 to occurs[0]
+    rl = 40
+    if occurs[_s].length > 40 then
+      rl = occurs[_s].length
+
+    say occurs[_s].right(rl)
+  end _s
+  say
+
+  return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method isABC(occ = Rexx, counts = Rexx) public static returns boolean
+  parse 'A B C' A B C
+  parse counting(occ) ':'ret':'ayys':'bees':'cees':' .
+
+  counts[A] = ayys
+  counts[B] = bees
+  counts[C] = cees
+
+  return boolean ret
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method counting(occ = Rexx) public static returns Rexx
+  isTrue  = boolean (1 == 1)
+  isFalse = boolean (\isTrue)
+
+  ayys = occ.countstr('a')
+  bees = occ.countstr('b')
+  cees = occ.countstr('c')
+
+  if (ayys > 0) & (ayys == bees & bees == cees) then
+    matches = isTrue
+  else
+    matches = isFalse
+
+  return ':'matches':'ayys':'bees':'cees':'
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

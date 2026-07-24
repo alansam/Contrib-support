@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+(java RCSameChars_A)
+
+echo "Java Return Code: $?"
+

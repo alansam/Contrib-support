@@ -1,0 +1,46 @@
+#!/usr/bin/env nr
+/* NetRexx */
+
+--trace int;nop
+
+--COLUMNS = 131
+--LINES = 34
+  col = ''
+  loop for 2
+    say ' '.copies(60)
+    env(col)
+    say
+    col = 80
+  end
+
+  exit
+
+method env(col = '') public static
+  if col.datatype('w') then
+    COLUMNS = col
+
+  echo = ''
+
+  say
+  say 'Address SYSTEM:'
+  commando = "set | grep -E 'COLUMNS|LINES'"
+  address 'SYSTEM' commando with output stem echo
+--address 'SYSTEM' 'printf "\n\n\n%s\n" "$COLUMNS"' with output stem echo
+--address 'SYSTEM' 'ls *.rex' with output stem echo
+  if echo[0] > 0 then
+    do ix = 1 to echo[0]
+      say 'echo['ix']: '''echo[ix]''''
+    end ix
+
+  say
+  say 'Address bash:'
+  address 'bash' commando with output stem echo
+--address 'bash' 'printf "\n\n\n%s\n" "$COLUMNS"' with output stem echo
+--address 'bash' 'ls *.rex' with output stem echo
+  if echo[0] > 0 then
+    do ix = 1 to echo[0]
+      say 'echo['ix']: '''echo[ix]''''
+    end ix
+
+  return
+

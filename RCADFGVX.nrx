@@ -1,0 +1,236 @@
+#!/usr/bin/env nr
+/* NetRexx */
+options replace format comments java symbols nobinary
+
+-- =============================================================================
+class RCADFGVX public
+  properties private constant
+    -- keyword = 'lifeguard'.upper
+    -- keyword = 'RNLISavesLives'.upper
+    keyword = 'crum81ing5'.upper   -- crumblings but in 1337 5p34k ;-)
+    cyph = 'ADFGVX'
+    eol = char '\n'
+    isTrue = boolean (1 == 1)
+    isFalse = boolean (\isTrue)
+
+  properties private static
+    debug = boolean isFalse
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--~
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+method main(args = String[]) public static
+  msg = "ATTACKAT1200AM"
+
+  if args.length > 0 then do
+    arg1 = Rexx args[0]
+    select case arg1
+      when ''  then debug = isFalse
+      when '.' then debug = isFalse
+      otherwise     debug = isTrue
+    end 
+  end
+
+  if debug then do
+    say 'DEBUG is activated by user input <' || arg1 || '>'
+    say
+  end
+
+  -- Sort the keyword in alhanumerical order
+  key_ary = char[]
+  key_ary = String(keyword).toCharArray
+  java.util.Arrays.sort(key_ary)
+  key_str = String(key_ary)
+  new_key = Rexx key_str
+  -- TODO debug
+  if debug then do
+    say 'DEBUG'
+    say
+    say 'Keyword:' keyword
+    say ' sorted:' key_str
+    say
+    say 'DEBUG'
+  end
+  -- TODO debug
+
+/*
+  s_sort = keyword
+  new_key = ''
+  loop while s_sort.length > 0
+    nmax = 0
+    loop i_ = 1 to s_sort.length
+      ch = s_sort.substr(i_, 1)
+      num = ch.c2d
+      if num > nmax then do
+        nmax = num
+        max_i = i_
+      end
+    end i_
+    s_sort = s_sort.delstr(max_i, 1)
+    new_key = nmax.d2c || new_key
+  end        /* Alphabetical sorting */
+*/
+
+  j_ = 0
+  num_str = ''
+  rnd_s = ''
+  loop while j_ < 36
+    num = Rexx java.util.Random().nextInt(36) -- (0, 35)
+    if num_str.wordpos(num) = 0 then do
+      j_ = j_ + 1
+ 	    num_str = num_str || num || ' '
+	   if num >= 10 then do
+	     num = num - 10 + 41.x2d
+       num = num.d2c
+	   end
+	   rnd_s = rnd_s || num
+    end
+  end
+  -- say 'Generated string: ' || rnd_s || eol
+  say 'Polybius square:' || eol
+  tab(cyph, rnd_s, 1)
+  say "Only characters from the plaintext message: '" || msg || "'" || eol
+  t_ = rnd_s.translate(' ', msg)
+  _t = rnd_s.translate(' ', t_)
+  tab(cyph, _t ,1)
+
+  len_c = (cyph).length
+  cyph_T = ''
+  loop i_ = 1 to len_c
+    ch_i = cyph.substr(i_, 1)
+    loop j_ = 1 to len_c
+      ch_j = cyph.substr(j_, 1)
+      cyph_T = cyph_T || ch_i || ch_j || ' '
+    end j_
+  end i_
+
+  enc_msg = ''
+  loop i_ = 1 to msg.length
+    ch = msg.substr(i_, 1)
+    j_  = rnd_s.pos(ch, 1)
+if j_ <= 0 then iterate
+    enc_msg = enc_msg || cyph_T.word(j_)
+  end i_
+
+  say "Conversion by table: " || eol || eol || msg || " ==> " || enc_msg || eol
+  tab(keyword, enc_msg)
+
+  len = keyword.length
+  n_row = 0
+  column = ''
+  do while enc_msg <> ''
+    parse enc_msg 1 s1 + (len) enc_msg
+    n_row = n_row + 1
+    loop m_ = 1 to len
+      ch_m = s1.substr(m_, 1)
+      column[m_] = column[m_] || ch_m 
+    end m_ 
+  end
+
+-- TODO: DEBUG
+  if debug then do
+    column[0] = len
+    say
+    say 'DEBUG'
+    say '  column[ 0]' column[0]
+    loop cn = 1 to column[0]
+      say '  column['cn.right(2)']' column[cn]
+    end cn
+    say 'DEBUG'
+    say
+  end
+-- TODO: DEBUG
+
+  colz = ''
+  s_lst = ''
+  loop m_ = 1 to len
+    ch  = new_key.substr(m_, 1)
+    i_  = keyword.pos(ch, 1)
+    w_i = column[i_]
+    s_lst = s_lst || w_i || ' '
+    colz[m_] = column[i_]
+  end m_
+
+  row   = ''
+  t_row = ''
+  loop i_ = 1 to len
+    w_i = s_lst.word(i_)
+    loop j_ = 1 to n_row
+      row[j_] = row[j_] || w_i.substr(j_, 1)
+      end j_ 
+  end i_
+  loop j_ = 1 to n_row
+    t_row = t_row || row[j_]
+  end j_
+
+  say "Sorted by columns:" || eol
+  tab(new_key, t_row)
+
+-- TODO: DEBUG
+  if debug then do
+    colz[0] = len
+    say
+    say 'DEBUG'
+    say '  colz[ 0]' colz[0]
+    loop cn = 1 to colz[0]
+      say '  colz['cn.right(2)']' colz[cn]
+    end cn
+    say 'DEBUG'
+    say
+  end
+-- TODO: DEBUG
+
+  chex = 0
+  loop cz = 1 to column[0]
+    loop cy = 1 to colz[0]
+      if column[cz] == colz[cy] then do
+        chex[cz] = 1
+        chex[0] = chex[0] + 1
+      end
+    end cy
+  end cz
+
+  if chex[0] < column[0] then do
+    loop cx = 1 to column[0]
+      if chex[cx] \= 1 then do
+        bad = column[cx]
+        say 'string' bad 'missing from sorted list'
+        leave cx
+      end
+    end cx
+  end
+  
+  say '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+  say 'Encrypted message: ' || s_lst
+  say '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+
+  return
+--exit
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--~
+method tab(h_, s_, p_ = '') private static
+--parse arg h_, s_, p_  /* header, string, param */
+
+  lh = h_.length
+  s_ = h_ || '-'.copies(lh) || s_
+  ls = s_.length
+  h_ = ' -' | | h_
+
+  t_ = ''
+  j_ = 1
+  loop i_ = 1 to ls by lh
+    row = s_.substr(i_, lh)
+    r_ch = ''
+    loop l_ = 1 to lh
+      ch = row.substr(l_, 1)
+      r_ch = r_ch || ch || ' '
+    end l_
+    row = r_ch
+    if p_ <> '' then row = row || '|' || h_.substr(j_, 1)
+    t_ = t_ || row || eol
+    j_ = j_ + 1
+  end i_
+  say t_
+
+  return
+
