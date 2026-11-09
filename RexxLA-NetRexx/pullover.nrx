@@ -1,0 +1,69 @@
+
+-- Special Names
+--  ask
+--  asknoecho
+--  class
+--  digits
+--  form
+--  length
+--  RC
+--  null
+--  source
+--  sourceline
+--  super
+--  this
+--  trace
+--  version
+
+do label _asking
+  say 'say whut? (parse ask)'
+  parse ask not_for_whom_the_bell_tolls -- John Donne, 1624, via Ernest Hemmingway, 1640
+  -- Donne actually wrote, "And therefore never send to know for whom the bell tolls; it tolls for thee."
+  say '--' not_for_whom_the_bell_tolls
+  say
+
+  say 'say whut? (parse asknoecho)'
+  parse asknoecho not_for_whom_the_bell_tolls
+  say '--' not_for_whom_the_bell_tolls
+  say
+
+  say 'say whut? (parse pull)'
+  parse pull not_for_whom_the_bell_tolls
+  say '--' not_for_whom_the_bell_tolls
+  say
+
+  say 'say whut? (ask)'
+  if ask \= '.' then
+    say 'asked and answered'
+  say
+
+  say 'say whut? (asknoecho)'
+  if asknoecho \= '.' then
+    say 'asked and answered'
+  say
+
+  say 'say whut? (pull)'
+  if pull \= '.' then do
+    say 'asked and answered'
+  end
+  say
+
+  say 'say whut? (= ask)'
+  not_for_whom_the_bell_tolls = ask
+  say '--' not_for_whom_the_bell_tolls
+  say
+
+  say 'say whut? (= asknoecho)'
+  not_for_whom_the_bell_tolls = asknoecho
+  say '--' not_for_whom_the_bell_tolls
+  say
+
+  say 'say whut? (= pull)'
+  not_for_whom_the_bell_tolls = pull
+  say '--' not_for_whom_the_bell_tolls
+  say
+
+catch ex = NullPointerException
+  say ex.toString()
+end _asking
+

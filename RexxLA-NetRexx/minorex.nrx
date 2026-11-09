@@ -1,0 +1,13 @@
+
+do
+  signal outer.inner('boom')
+catch Exception
+  say 'caught'
+end
+
+class outer
+
+class outer.inner extends Exception
+  method inner(m = Rexx)
+    super(m)
+

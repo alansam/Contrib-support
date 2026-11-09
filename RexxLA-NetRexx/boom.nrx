@@ -1,0 +1,5 @@
+-- boom.nrx:
+
+x = 'abc'
+say x + 1
+

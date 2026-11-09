@@ -1,0 +1,6 @@
+-- stemdot.nrx:
+
+out = ''
+address system 'echo hello' with output stem out.
+say out[1]
+

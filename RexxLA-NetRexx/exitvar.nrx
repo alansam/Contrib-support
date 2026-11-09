@@ -1,0 +1,5 @@
+-- exitvar.nrx:
+
+code = 3
+exit code
+

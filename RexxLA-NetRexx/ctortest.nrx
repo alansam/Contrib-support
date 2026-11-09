@@ -1,0 +1,13 @@
+-- ctortest.nrx:
+
+say k(1,2).v
+say k(5).v
+
+class k
+  properties public
+    v
+  method k(x=Rexx, y=Rexx) public
+    this.v = x y
+  method k(x=Rexx) public
+    this(x,x)
+

@@ -1,0 +1,22 @@
+/*
+  $ nrc -exec -verbose0 -nologo -nocolor minorctor.nrx
+  ===== Exception running class minorctor: java.lang.NoClassDefFoundError: thing/bad =====
+  --- in minorctor.main(String[]) [minorctor.nrx:1]
+  2 +++   thing()
+    +++   ^^^^^
+ */
+
+do
+  thing()
+catch Exception
+  say 'caught'
+end
+
+class thing
+  method thing signals thing.bad
+    signal thing.bad('boom')
+
+class thing.bad extends Exception
+  method bad(m = Rexx)
+    super(m)
+

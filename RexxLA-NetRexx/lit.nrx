@@ -1,0 +1,33 @@
+#!/usr/bin/env nr
+
+/*
+0.0999999988824129
+0.1
+0.10000000158324836
+0.5
+ */
+
+say 'actual results'
+say Math.sqrt(0.01)
+x = 0.01
+say Math.sqrt(x)
+say Math.cbrt(0.001)
+say Math.sqrt(0.25)
+
+say
+say 'Reported results - '
+say 'Interpreted:'
+say '$ nr lit.nrx'
+say '0.0999999988824129'
+say '0.1'
+say '0.10000000158324836'
+say '0.5'
+say
+say 'Compiled:'
+say '$ nrc lit && java lit'
+say '0.1'
+say '0.1'
+say '0.1'
+say '0.5'
+say
+

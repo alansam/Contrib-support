@@ -1,0 +1,15 @@
+-- atomic.nrx:
+
+counter = java.util.concurrent.atomic.AtomicInteger(0)
+
+go take(1, counter)
+go take(2, counter)
+go take(3, counter)
+Thread.sleep(300)
+
+method take(id = Rexx, counter = java.util.concurrent.atomic.AtomicInteger) static
+  loop for 8
+    n = Rexx counter.getAndIncrement()
+    say id n
+  end
+
