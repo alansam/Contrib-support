@@ -28,6 +28,7 @@ work/
 keep/
 gen/
 cmd/
+keep
 
 #work directory links
 tmp

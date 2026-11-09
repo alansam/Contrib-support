@@ -1,0 +1,141 @@
+#!/usr/bin/env nr
+/* NetRexx */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+-- remove comments for NetRexx Pipes class imports
+-- import org.netrexx.njpipes.pipes.
+-- import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class smbitties public
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+    _dlm   = '='.copies(60)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method smbitties() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    do label _runner
+      /*
+       'U+0041                  0x41                : \u0041', -
+       'U+00F6                  0xc3,0xb6           : \u00F6', -
+       'U+0416                  0xd0,0x96           : \u0416', -
+       'U+20AC                  0xe2,0x82,0xac      : \u20AC', -
+       'U+1D11E [U+D834,U+DD1E] 0xf0,0x9d,0x84,0x9e : \uD834\uDD1E' /*UTF-16 surrogate pair for U+1D11E */ -
+       */
+
+      -- 0xe2,0x82,0xac
+      -- e2 11100010, 82 10000010, ac 10101100
+      -- 62 01100010, 02 00000010, 2c 00101100
+      overarch = [ -
+        [ '\xe2'.c2d, '\x82'.c2d, '\xac'.c2d ], -
+        [ '\x62'.c2d, '\x02'.c2d, '\x2c'.c2d ]  -
+      ]
+
+      loop _o = 0 to overarch.length - 1
+        bb = overarch[_o]
+        loop _b = 0 to bb.length - 1
+          xbs = short bb[_b]
+          xbb = byte xbs
+          say bb[_b].right(3)',' bb[_b].d2x.right(2, 0)',' bb[_b].d2b.right(8, 0) '| \-'
+          say 'short 0x'Rexx(xbs).d2x.right(2, 0)',' Rexx(xbs).right(3) '| \-'
+          say 'byte 0x'Rexx(xbs).d2x.right(2, 0)',' Rexx(xbb).right(3)
+        end _b
+        say
+      end _o
+
+      say _dlm
+      say '  U+1D11E [U+D834,U+DD1E] 0xf0,0x9d,0x84,0x9e : \ud834\udd1e'
+      say '  U+D834,U+DD1E: \ud834\udd1e'
+      say '        U+1D11E: \u1d11e'
+      say 
+      _2hex('1D11E')
+
+      -- U+20AC                  0xe2,0x82,0xac      : €
+      say _dlm
+      say '  U+20AC                  0xe2,0x82,0xac      : \u20ac'
+      say '         U+20AC: \u20ac'
+      say
+      _2hex('20AC')
+
+      -- U+0416                  0xd0,0x96           : Ж
+      say _dlm
+      say '  U+0416                  0xd0,0x96           : \u0416'
+      say '         U+0416: \u0416'
+      say
+      _2hex('0416')
+
+      -- U+00F6                  0xc3,0xb6           : ö
+      say _dlm
+      say '  U+00F6                  0xc3,0xb6           : \u00f6'
+      say '         U+00F6: \u00f6'
+      say
+      _2hex('00F6')
+
+      -- U+0041                  0x41                : A
+      say _dlm
+      say '  U+0041                  0x41                : \u0041'
+      say '         U+0041: \u0041'
+      say
+      _2hex('0041')
+
+    catch ex = Throwable
+      say ex.toString()
+
+    end _runner
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method _2hex(val = Rexx) private static signals UnsupportedEncodingException
+
+    uu = int val.x2d.toint()
+    su = Character.toString(uu)
+
+    say '        Unicode: U+'val
+    say '      codepoint:' su.codePointAt(0)
+    say '            int:' uu
+    say '         String:' su
+    say '           Name:' Character.getName(uu)
+
+    if Character.isSupplementaryCodePoint(uu) then do
+      hs = Character.highSurrogate(uu)
+      ls = Character.lowSurrogate(uu)
+      say ' High Surrogate: U+'Rexx(hs).c2x()
+      say '            int:' Rexx(hs).c2d()
+      say '  Low Surrogate: U+'Rexx(ls).c2x()
+      say '            int:' Rexx(ls).c2d()
+    end
+
+    say '          UTF-8:'
+    cpbytes = su.getBytes('UTF-8')
+    loop _b = 0 to cpbytes.length - 1
+      cb = byte cpbytes[_b]
+      if cb < 0 then
+        cx = (255 + cb + 1)
+      else
+        cx = cb
+      say Rexx(cb).right(20) '\-'
+      say cx.d2x.right(2, 0)
+    end _b
+    say
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

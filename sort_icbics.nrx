@@ -1,0 +1,191 @@
+#!/usr/bin/env nr
+/* NetRexx */
+/**
+ * The sorting algorithm that shouldn’t
+ *
+ * @see https://arxiv.org/pdf/2110.01111
+ * @see https://www.cs.le.ac.uk/people/pyf1/sorting.html
+ * @see https://www.youtube.com/watch?v=ixXOUeBOPJw
+ *
+ * pseudo-code:
+ *  for i = 1 to n
+ *    for j = 1 to n
+ *      if A[i] < A[j] then
+ *        swap A[i] and A[j]
+ *
+ */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+-- remove comments for NetRexx Pipes class imports
+-- import org.netrexx.njpipes.pipes.
+-- import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class sort_icbics public
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+    _dlm = '~'.copies(80)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+  properties private static
+    ilist_ = [10528, 49358, 10284, 15390,  4358, 46039, 24391, 23782,  4511, 36850,-
+              39839,  3213, 38808, 42969, 26374, 22884, 35467, 46280, 19472, 49976,-
+               2018, 23310,  9280, 42481, 37368, 31684, 11702, 39007, 39004, 49949,-
+              29129, 18670, 34096, 35045,  3419, 38225, 29898, 10026, 38679, 20734,-
+              36173, 23540,  4136, 37742, 38147, 29143, 40565, 17817, 15474, 46684,-
+              41036,  2100,  8134, 37839, 36171, 19634, 33361, 31770, 18375, 45859,-
+              40501, 37817,  8259, 46800, 48898, 47496, 40520, 10790, 44258, 38176,-
+               5406, 29432, 49617, 32275, 29614, 20673, 23944, 26998, 21343,  8051,-
+              23816, 33542, 42559, 31802, 13059, 44315, 30928, 19427, 24995, 11560,-
+              10095, 29302,  6346, 25552, 23197, 28227, 18013, 37752, 27190, 15430,-
+               6626, 31741, 26894, 14012, 31352, 47940,   340, 20880,  4414,  5516,-
+               6223, 23932, 27261, 40824, 40895, 19055,  5129,  1834, 40055,  9954,-
+               6915, 28358, 25825, 13197, 48728,  9194, 17544, 30075, 17601, 48948,-
+              29988, 40199, 11606, 21855, 10672,  2023, 42026, 21869,   201, 33496,-
+              48751, 10116, 26305, 49659,  9844, 45225, 11409,  7183, 44952,  5921,-
+              23909,  9385, 19109, 31590, 36215, 31916, 12849, 24991, 39003, 10293,-
+              27761,  8625, 25724, 24835, 17519,  7514, 19928, 32040, 32983, 42117,-
+               5958, 17160, 28095, 28420, 33845, 41514, 37628, 46322, 31906, 44435,-
+              10698, 22735,  9744, 14045,  9088, 45263, 24567, 21855, 33407, 45045,-
+              18609, 38936, 33236, 43106,  6743, 46624, 17318, 38209, 49372, 22489]
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method sort_icbics() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- pseudo-code:
+--  for i = 1 to n
+--    for j = 1 to n
+--      if A[i] < A[j] then
+--        swap A[i] and A[j]
+  method icbics0(il = Rexx[]) public static returns Rexx[]
+
+    loop _i = 0 to il.length - 1
+      loop _j = 0 to il.length - 1
+        if il[_i] < il[_j] then do
+          swap = il[_i]
+          il[_i] = il[_j]
+          il[_j] = swap
+        end
+      end _j
+    end _i
+
+    return il
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- for i = 2 to n do
+--   for j = 1 to i− 1 do
+--     if A[i] < A[j] then
+--       swap A[i] and A[j]
+  method icbics1(il = Rexx[]) public static returns Rexx[]
+
+    loop _i = 1 to il.length - 1
+      loop _j = 0 to _i
+        if il[_i] < il[_j] then do
+          swap = il[_i]
+          il[_i] = il[_j]
+          il[_j] = swap
+        end
+      end _j
+    end _i
+
+    return il
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- for i = 1 to n do
+--   for j= i+ 1 to n do
+--     if A[i] > A[j] then
+--       swap A[i] and A[j]
+  method exchange(il = Rexx[]) public static returns Rexx[]
+
+    loop _i = 0 to il.length - 1
+      loop _j = _i + 1 to il.length - 1
+        if il[_i] > il[_j] then do
+          swap = il[_i]
+          il[_i] = il[_j]
+          il[_j] = swap
+        end
+      end _j
+    end _i
+
+    return il
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    -- . ... | ... ... | ... ... | ... ... | ... ... | ... ... | 
+    il = setup(ilist_)
+    say _dlm.overlay(' I Can''t Believe It Can Sort(A[1..n]) - [Algorithm 1] ', 3)
+    showme(il)
+    say
+
+    icbics0(il)
+
+    say _dlm
+    showme(il)
+    say
+
+    -- . ... | ... ... | ... ... | ... ... | ... ... | ... ... | 
+    say _dlm.overlay(' Exchange Sort(A[1..n]) - [Algorithm 2] ', 3)
+    il = setup(ilist_)
+    showme(il)
+    say
+
+    exchange(il)
+
+    say _dlm
+    showme(il)
+    say
+
+    -- . ... | ... ... | ... ... | ... ... | ... ... | ... ... | 
+    say _dlm.overlay(' I Can''t Believe It Can Sort(A[1..n]) - [Algorithm 3] ', 3)
+    il = setup(ilist_)
+    showme(il)
+    say
+
+    icbics1(il)
+
+    say _dlm
+    showme(il)
+    say
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method showme(il = Rexx[]) private static
+
+    fist = 1
+    loop _k = 0 to il.length - 1
+      say il[_k].right(6)'\-'
+      if fist // 10 = 0 then do
+        fist = 0
+        say
+      end
+      fist = fist + 1
+    end _k
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method setup(il = Rexx[]) private static returns Rexx[]
+
+    lr = Rexx[il.length]
+    loop _x = 0 to il.length - 1
+      lr[_x] = il[_x]
+    end _x
+
+    return lr
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

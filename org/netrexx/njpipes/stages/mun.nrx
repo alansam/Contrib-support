@@ -1,0 +1,31 @@
+
+options format java comments replace symbols -
+         nostrictcase nostrictargs nostrictsignal nobinary noimplicituses
+
+class mun public
+
+
+  method selectOutput(n = Rexx) private
+    return
+
+  method output(aobj = Rexx) private
+    return
+
+  method selectOutput(n = Rexx) private
+    return
+
+  method readto() private
+    return
+
+  method unknown(aobj = java.lang.Object) signals ThreadQ
+    do
+      selectOutput(1)
+      output(aobj)
+      selectOutput(0)
+      readto()
+    catch stageError
+      say "Could not convert date:' "aobj"' to" inF"."
+      exit 11
+    end
+
+method main(args = String[]) public static

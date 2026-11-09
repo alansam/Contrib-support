@@ -21,7 +21,7 @@ class nonascii public
                          '\U30A2\U30E9\U30F3\U3042\U3089\U3093' -
                          '\U263A\U263B\U2665\U2666\U2302\U266B\U2605\U00A7\U25BA\U2594\U25C4\U2591\U2592' || -
                          '\U2593\U2588\U250C\U2534\U2510\U00B1\U00F7\U00B2\U00AC\U2514\U252C\U2518' -
-                 ':16-FTU'
+                 ':61-FTU'
 
     code_table = [Rexx -
                         '\x00\x20\x20 | \U0000 | NULL', -

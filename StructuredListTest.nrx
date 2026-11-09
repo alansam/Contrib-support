@@ -1,0 +1,318 @@
+#!/usr/bin/env nr
+/* NetRexx */
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+options format java comments replace symbols decimal
+
+-- remove comments for NetRexx Pipes class imports
+-- import org.netrexx.njpipes.pipes.
+-- import org.netrexx.njpipes.stages.
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+class StructuredListTest public
+
+  properties public constant
+    _true  = (1 == 1)
+    _false = \(_true)
+
+  properties private unused
+    memvar_ = Rexx '' -- maybe ...
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+-- Default constructor
+  method StructuredListTest() public
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method main(args = String[]) public static
+
+    arg = Rexx(args)
+    parse arg .
+
+    say '-'.copies(60)
+    wordlistsamp()
+    say
+
+    say '-'.copies(60)
+    csvsamp()
+    say
+
+    say '-'.copies(60)
+    tsvsamp()
+    say
+
+    say '-'.copies(60)
+    defaultsamp()
+    say
+
+    say '-'.copies(60)
+    jsonsamp()
+    say
+
+    say '-'.copies(60)
+    xmlsamp()
+    say
+
+    say '-'.copies(60)
+    more()
+    say
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method csvsamp() private static
+
+    say 'CSV'
+    say
+    csvdata = '"elmt1","1","one A",\n' -
+              '"elmt2","2","two B"'
+    csvlist = csvdata.buildlist('CSV', 1)
+    if csvlist.islist then
+      say 'I am a list'
+    else
+      say 'I am not a list'
+
+    if csvlist.islist then do label _lst
+      say '--' csvlist.elementcount()
+      say '--' csvlist['sl-elements']
+      say '--' csvlist['sl-rules']
+      loop _o = 1 to csvlist.elementcount()
+        say '  --' csvlist[_o].strip()
+      end _o
+    end _lst
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method tsvsamp() private static
+
+    say 'TSV'
+    say
+    tsvdata = 'elmt1\t1\tone A\n' -
+              'elmt2\t2\ttwo B'
+    tsvlist = tsvdata.buildlist('TSV', 1)
+
+    if tsvlist.islist then do label _lst
+      say '--' tsvlist.elementcount()
+      say '--' tsvlist['sl-elements']
+      say '--' tsvlist['sl-rules']
+      loop _o = 1 to tsvlist.elementcount()
+        say '  --' tsvlist[_o].strip()
+      end _o
+    end _lst
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method wordlistsamp() private static
+
+    say 'WORDLIST'
+    say
+    wl = 'a list of words separated by blanks where' -
+         '"a quoted string is a phrase treated as a single word" '
+    swl = wl.buildlist('WORDLIST')  --  create a structured wordlist
+    -- display the list elements:
+    say '--' swl.islist()
+    if swl.islist() then do label _swl
+      say '--' swl.elementcount()
+      say '--' swl['sl-elements']
+      say '--' swl['sl-rules']
+      loop _i = 1 to swl.elementcount() --swl['elements']
+        say '  --' swl[_i]
+      end _i
+    end _swl
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method defaultsamp() private static
+
+    say 'DEFAULT'
+    say
+    ddata = '1 3 4 55 67 42 0 9 444 73 29 1'
+    dlist = ddata.buildlist()
+    say '--' dlist.islist()
+    if dlist.islist() then do label _dl
+      say '--' dlist.elementcount()
+      say '--' dlist['sl-elements']
+      say '--' dlist['sl-rules']
+      loop _d = 1 to dlist.elementcount()
+        say '  --' dlist[_d]
+      end _d
+      say 'minval  --' dlist.minval()
+      say 'maxval  --' dlist.maxval()
+      say 'sum     --' dlist.sum()
+      say 'head    --' dlist.head()
+      say 'first   --' dlist.first()
+      say 'tail    --' dlist.tail()
+      say 'rest    --' dlist.rest()
+      say 'count   --' dlist.count(8)
+      say 'rules   --' dlist.rules()
+    end _dl
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method jsonsamp() private static
+
+    say 'JSON'
+    say
+    jsondata = -
+    '{' -
+      '"glossary": {' -
+        '"title": "example glossary",' -
+        '"GlossDiv": {' -
+          '"title": "S",' -
+          '"GlossList": {' -
+            '"GlossEntry": {' -
+              '"ID": "SGML",' -
+              '"SortAs": "SGML",' -
+              '"GlossTerm": "Standard Generalized Markup Language",' -
+              '"Acronym": "SGML",' -
+              '"Abbrev": "ISO 8879:1986",' -
+              '"GlossDef": {' -
+                '"para": "A meta-markup language, used to create markup languages such as DocBook.",' -
+                '"GlossSeeAlso": ["GML", "XML"]' -
+              '},' -
+              '"GlossSee": "markup"' -
+            '}' -
+          '}' -
+        '}' -
+      '}' -
+    '}'
+    jsonlist = jsondata.buildlist('JSON')
+    -- display the list elements:
+    say '--' jsonlist.islist()
+    if jsonlist.islist() then do label _jl
+      say '--' jsonlist.elementcount()
+      say '--' jsonlist['sl-elements']
+      say '--' jsonlist['sl-rules']
+      loop _i = 1 to jsonlist.elementcount()
+        say '  --' jsonlist[_i]
+      end _i
+    end _jl
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method xmlsamp() private static
+
+    say 'XML'
+    say
+--  '<!DOCTYPE glossary PUBLIC "-//OASIS//DTD DocBook V3.1//EN">' -
+    xmldata = -
+    '<glossary><title>example glossary</title>' -
+      '<GlossDiv> <title>S</title>' -
+        '<GlossList>' -
+          '<GlossEntry ID="SGML" SortAs="SGML">' -
+            '<GlossTerm>Standard Generalized Markup Language</GlossTerm>' -
+            '<Acronym>SGML</Acronym>' -
+            '<Abbrev>ISO 8879:1986</Abbrev>' -
+            '<GlossDef>' -
+              '<para>A meta-markup language, used to create markup languages such as DocBook.</para>' -
+              '<GlossSeeAlso OtherTerm="GML">' -
+              '<GlossSeeAlso OtherTerm="XML">' -
+            '</GlossDef>' -
+            '<GlossSee OtherTerm="markup">' -
+          '</GlossEntry>' -
+        '</GlossList>' -
+      '</GlossDiv>' -
+    '</glossary>'
+    xmllist = xmldata.buildlist('XML')
+    -- display the list elements:
+    say '--' xmllist.islist()
+    if xmllist.islist() then do label _xl
+      say '--' xmllist.elementcount()
+      say '--' xmllist['sl-elements']
+      say '--' xmllist['sl-rules']
+      loop _i = 1 to xmllist.elementcount()
+        say '  --' xmllist[_i]
+      end _i
+    end _xl
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+  method more() private static
+
+    say '-'.copies(60)
+    worddata = ''
+    wordlist = worddata.buildlist('WORDLIST')
+    if wordlist.islist() then
+      say 'WORDLIST:' wordlist['sl-rules']
+    rl = wordlist.getrules('WORDLIST')
+    say 'Dump rules'
+    rl.dumplist()
+    say
+/*
+    -- DSV is not defined in getrules()
+    dsvdata = ''
+    dsvlist = dsvdata.buildlist('DSV')
+    if dsvlist.islist() then
+      say 'DSV:' dsvlist['sl-rules']
+    say
+*/
+    say '-'.copies(60)
+    csvdata = ''
+    csvlist = csvdata.buildlist('CSV')
+    if csvlist.islist() then
+      say 'CSV:' csvlist['sl-rules']
+    rl = csvlist.getrules('CSV')
+    say 'Dump rules'
+    rl.dumplist()
+    say
+
+    say '-'.copies(60)
+    tsvdata = ''
+    tsvlist = tsvdata.buildlist('TSV')
+    if tsvlist.islist() then
+      say 'TSV:' tsvlist['sl-rules']
+    rl = tsvlist.getrules('TSV')
+    say 'Dump rules'
+    rl.dumplist()
+    say
+
+    say '-'.copies(60)
+    xmldata = ''
+    xmllist = xmldata.buildlist('TSV')
+    if xmllist.islist() then
+      say 'XML:' xmllist['sl-rules']
+    rl = xmllist.getrules('XML')
+    say 'Dump rules'
+    rl.dumplist()
+    say
+
+    say '-'.copies(60)
+    jsondata = ''
+    jsonlist = jsondata.buildlist('JSON')
+    if jsonlist.islist() then
+      say 'JSON:' jsonlist['sl-rules']
+    rl = jsonlist.getrules('JSON')
+    say 'Dump rules'
+    rl.dumplist()
+    say
+
+    say '-'.copies(60)
+    pythondata = ''
+    pythonlist = pythondata.buildlist('PYTHON')
+    if pythonlist.islist() then
+      say 'PYTHON:' pythonlist['sl-rules']
+    rl = pythonlist.getrules('PYTHON')
+    say 'Dump rules'
+    rl.dumplist()
+    say
+
+    say '-'.copies(60)
+    defaultdata = ''
+    defaultlist = defaultdata.buildlist()
+    if defaultlist.islist() then
+      say 'DEFAULT:' defaultlist['sl-rules']
+    rl = defaultlist.getrules('default')
+    say 'Dump rules'
+    rl.dumplist()
+    say
+
+    return
+
+-- . ... 1 ... ... 2 ... ... 3 ... ... 4 ... ... 5 ... ... 6 ... ... 7 ... ... 8
+

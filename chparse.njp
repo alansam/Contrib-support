@@ -1,0 +1,24 @@
+
+  pipe (chparse stall 1000 debug 0 )
+   o: faninany |
+      specs 1-* 4 |
+      console ?
+
+      command jar tvf tmp_classes.jar |
+      nlocate /META-INF/ |
+      changepars /. . $1 $2 $3 $4 $5 $6 / /$5-$1-$2 $3 $4 $6/ |
+      change /Jan/ /01/ |
+      change /Feb/ /02/ |
+      change /Mar/ /03/ |
+      change /Apr/ /04/ |
+      change /May/ /05/ |
+      change /Jun/ /06/ |
+      change /Jul/ /07/ |
+      change /Aug/ /08/ |
+      change /Sep/ /09/ |
+      change /Oct/ /10/ |
+      change /Nov/ /11/ |
+      change /Dec/ /12/ |
+      sort |
+      o:
+
