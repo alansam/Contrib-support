@@ -1,0 +1,11 @@
+
+  pipe (truth0 stall 1000 debug 0 )
+   o: faninany |
+      spec 1-* 4 |
+      console ?
+
+      literal java truth |
+      command |
+      o: ?
+      -- fin
+
